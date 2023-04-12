@@ -25,6 +25,11 @@ public class ProjectClient extends Application
 
    //GridPane for the game peices
    GridPane gameBoard = new GridPane();
+   
+   FlowPane left = new FlowPane();
+   
+   Label leftSpace = new Label("");
+   
 
    //Array to hold the game peices 
    GamePane[][] ballBoard = new GamePane[4][4]; 
@@ -57,6 +62,12 @@ public class ProjectClient extends Application
    
       //Adding the top banner
       updateTopBanner();
+      
+      //Adds space to center the board
+      left.setPrefWidth(55);
+      left.getChildren().add(leftSpace);
+   
+      root.setLeft(left);
    
       //Scene for window
       Scene scene = new Scene(root, 600,600);
@@ -285,22 +296,22 @@ public class ProjectClient extends Application
       {
          button4Visible = visible;
       }
-
+   
       //Returns button count 
       public int getButtonCount()
       {
-        int buttonCount = 0;
-
-        if(button1Visible)
+         int buttonCount = 0;
+      
+         if(button1Visible)
             buttonCount+=1;
-        if(button2Visible)
+         if(button2Visible)
             buttonCount+=1;
-        if(button3Visible)
+         if(button3Visible)
             buttonCount+=1;
-        if(button4Visible)
+         if(button4Visible)
             buttonCount+=1;
         
-        return buttonCount;
+         return buttonCount;
       }
       
    }
@@ -311,29 +322,29 @@ public class ProjectClient extends Application
       //For button 1
       if (selection == 1)
       {
-        ballBoard[x][y+1].isVisible(false);   //sets the next ball invisible
-        ballBoard[x][y+2].isVisible(true);    //sets the second ball to visible
+         ballBoard[x][y+1].isVisible(false);   //sets the next ball invisible
+         ballBoard[x][y+2].isVisible(true);    //sets the second ball to visible
       }
    
       //For button 2
       if (selection == 2)
       {
-        ballBoard[x][y-1].isVisible(false);   //sets the next ball invisible
-        ballBoard[x][y-2].isVisible(true);    //sets the second ball to visible
+         ballBoard[x][y-1].isVisible(false);   //sets the next ball invisible
+         ballBoard[x][y-2].isVisible(true);    //sets the second ball to visible
       }
    
       //For button 3
       if (selection == 3)
       {
-        ballBoard[x+1][y].isVisible(false);   //sets the next ball invisible
-        ballBoard[x+2][y].isVisible(true);    //sets the second ball to visible
+         ballBoard[x+1][y].isVisible(false);   //sets the next ball invisible
+         ballBoard[x+2][y].isVisible(true);    //sets the second ball to visible
       }
    
       //For button 4
       if (selection == 4)
       {
-        ballBoard[x-1][y].isVisible(false);   //sets the next ball invisible
-        ballBoard[x-2][y].isVisible(true);    //sets the second ball to visible
+         ballBoard[x-1][y].isVisible(false);   //sets the next ball invisible
+         ballBoard[x-2][y].isVisible(true);    //sets the second ball to visible
       }
    
       //Sets the buttons and updates the top banner
@@ -348,7 +359,7 @@ public class ProjectClient extends Application
          for(int j = 0; j < ballBoard[i].length; j++)
          {
             ballBoard[i][j].allButtonInvisible();
-
+         
             //If the space above is visible, and the next one is invisible
             if (((j-2) >= 0) && !(ballBoard[i][j-2].getVisible()) && (ballBoard[i][j-1].getVisible()) && (ballBoard[i][j].getVisible()))
             {
@@ -377,9 +388,9 @@ public class ProjectClient extends Application
                ballBoard[i][j].draw();
             }
          }
-
+   
          //Updates the top banner
-         updateTopBanner();
+      updateTopBanner();
    }
 
    //Sets and updates top banner 
@@ -391,36 +402,36 @@ public class ProjectClient extends Application
       
       //Loops through the array 
       for(int i = 0; i < ballBoard.length; i++)
-          for(int j = 0; j < ballBoard[i].length; j++)
-          {
+         for(int j = 0; j < ballBoard[i].length; j++)
+         {
             if(ballBoard[i][j].getVisible())                   //If the ball is visible, add it ball count 
-                  totalBalls+=1;
+               totalBalls+=1;
             totalMoves += ballBoard[i][j].getButtonCount();    //Checks for button count and adds it to moves 
-          } 
+         } 
    
       //Flow pane for top 
       FlowPane topBanner = new FlowPane();
       topBanner.setAlignment(Pos.CENTER);
-
+   
       //If there is one ball left, player wins 
       if(totalBalls == 1)
       {
-        Label topLabel = new Label("You Win!");
-        topBanner.getChildren().add(topLabel);
+         Label topLabel = new Label("You Win!");
+         topBanner.getChildren().add(topLabel);
       }
-
+      
       //If there is no moves, player loses
       else if(totalMoves == 0)
       {
-        Label topLabel = new Label("You Lose!");
-        topBanner.getChildren().add(topLabel);
+         Label topLabel = new Label("You Lose!");
+         topBanner.getChildren().add(topLabel);
       }
-
+      
       //If there is no valid win or lose state 
       else
       {
-        Label topLabel = new Label("Balls Left: " + totalBalls + "\t" + "Possible Moves: " + totalMoves);
-        topBanner.getChildren().add(topLabel);
+         Label topLabel = new Label("Balls Left: " + totalBalls + "\t" + "Possible Moves: " + totalMoves);
+         topBanner.getChildren().add(topLabel);
       }
    
       //Sets the top of the border pane to the top banner 
