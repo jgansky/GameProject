@@ -125,8 +125,6 @@ public class ProjectClient extends Application
          getChildren().add(button4);
          getChildren().add(ball);
       
-         //setButton();
-      
       }
       
       //Drawing the buttons and ball
@@ -147,8 +145,6 @@ public class ProjectClient extends Application
          
          //Drawing the ball
          addBall();
-
-         //updateTopBanner();
       }
    
       //Ball canvas and graphics context
@@ -167,21 +163,11 @@ public class ProjectClient extends Application
          //If the ball is visible, redraw the ball
          if(ballVisible)
          {
-            /*
-            Color col = new Color(0,0.3,0,1);
-            gc.setFill(col);
-            gc.fillOval(5,10,25,25);
-            gc.fillOval(20,0,25,25);
-            gc.fillOval(30,10,25,25);
-            */
-
             gc.fillOval(0,0,80,80);
          }
             
-      
          //Re-adding the ball 
          setConstraints(ball,1,1);
-         //getChildren().add(ball);
       }
    
       //For the buttons and their actions
@@ -241,7 +227,7 @@ public class ProjectClient extends Application
          //Sets the ball to be visible or invisible
          ballVisible = visible; 
       
-         //Re-draws after changes
+         //Re-draws after changes and updates the top banner 
          draw();
          updateTopBanner();
       }
@@ -253,6 +239,7 @@ public class ProjectClient extends Application
          button3Visible = false;
          button4Visible = false;
          
+         //Re-draws and updates the top banner
          draw();
          updateTopBanner();
       }
@@ -279,30 +266,27 @@ public class ProjectClient extends Application
       public void setButton1Visible(boolean visible)
       {
          button1Visible = visible;
-         updateTopBanner();
       }
    
       //Mutator for button 2 visibility
       public void setButton2Visible(boolean visible)
       {
          button2Visible = visible;
-         updateTopBanner();
       }
    
       //Mutator for button 3 visibility
       public void setButton3Visible(boolean visible)
       {
          button3Visible = visible;
-         updateTopBanner();
       }
    
       //Mutator for button 4 visibility
       public void setButton4Visible(boolean visible)
       {
          button4Visible = visible;
-         updateTopBanner();
       }
 
+      //Returns button count 
       public int getButtonCount()
       {
         int buttonCount = 0;
@@ -352,9 +336,9 @@ public class ProjectClient extends Application
         ballBoard[x-2][y].isVisible(true);    //sets the second ball to visible
       }
    
+      //Sets the buttons and updates the top banner
       setButton();
       updateTopBanner();
-      
    }
 
    //Sets the active button for movement
@@ -370,7 +354,6 @@ public class ProjectClient extends Application
             {
                ballBoard[i][j].setButton2Visible(true);   //Sets the bottom button visible
                ballBoard[i][j].draw();
-               updateTopBanner();
             }
             
             //If the space below is visible, and the next one is invisible
@@ -378,15 +361,13 @@ public class ProjectClient extends Application
             {
                ballBoard[i][j].setButton1Visible(true);   //Sets the top button visible
                ballBoard[i][j].draw();
-               updateTopBanner();
             }
             
             //If the space to the left is visible, and the next one is invisible
             if (((i-2) >= 0) && !(ballBoard[i-2][j].getVisible()) && (ballBoard[i-1][j].getVisible()) && (ballBoard[i][j].getVisible()))
             {
-               ballBoard[i][j].setButton4Visible(true); //Sets the right button visible
+               ballBoard[i][j].setButton4Visible(true);   //Sets the right button visible
                ballBoard[i][j].draw();
-               updateTopBanner();
             }
             
             //If the space to the right is visible, and the next one is invisible
@@ -394,48 +375,59 @@ public class ProjectClient extends Application
             {
                ballBoard[i][j].setButton3Visible(true);   //Sets the left button visible
                ballBoard[i][j].draw();
-               updateTopBanner();
             }
          }
+
+         //Updates the top banner
          updateTopBanner();
    }
 
-
+   //Sets and updates top banner 
    public void updateTopBanner()
    {
       int totalBalls = 0;
       int totalMoves = 0;
       
       
+      //Loops through the array 
       for(int i = 0; i < ballBoard.length; i++)
           for(int j = 0; j < ballBoard[i].length; j++)
           {
-            if(ballBoard[i][j].getVisible())
+            if(ballBoard[i][j].getVisible())                   //If the ball is visible, add it ball count 
                   totalBalls+=1;
-            totalMoves += ballBoard[i][j].getButtonCount();
+            totalMoves += ballBoard[i][j].getButtonCount();    //Checks for button count and adds it to moves 
           } 
    
+      //Flow pane for top 
       FlowPane topBanner = new FlowPane();
       topBanner.setAlignment(Pos.CENTER);
+
+      //If there is one ball left, player wins 
       if(totalBalls == 1)
       {
         Label topLabel = new Label("You Win!");
         topBanner.getChildren().add(topLabel);
       }
+
+      //If there is no moves, player loses
       else if(totalMoves == 0)
       {
         Label topLabel = new Label("You Lose!");
         topBanner.getChildren().add(topLabel);
       }
+
+      //If there is no valid win or lose state 
       else
       {
         Label topLabel = new Label("Balls Left: " + totalBalls + "\t" + "Possible Moves: " + totalMoves);
         topBanner.getChildren().add(topLabel);
       }
    
+      //Sets the top of the border pane to the top banner 
       root.setTop(topBanner);
    }
 
+   //Launches the application
    public static void main(String [] args)
    {
       launch (args);
